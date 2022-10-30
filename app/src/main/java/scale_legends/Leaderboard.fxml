@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="574.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scale_legends.SceneController">
+   <children>
+      <Button fx:id="btnMainFromLeaderboard" layoutX="217.0" layoutY="361.0" mnemonicParsing="false" onAction="#switchToMainScene" prefHeight="25.0" prefWidth="141.0" text="Main Menu" />
+      <TabPane layoutX="23.0" layoutY="48.0" prefHeight="304.0" prefWidth="530.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+            <Tab text="General">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tblGeneral" prefHeight="275.0" prefWidth="530.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TableColumn prefWidth="75.0" text="RANK" />
+                            <TableColumn prefWidth="75.0" text="NAME" />
+                              <TableColumn prefWidth="75.0" text="SCORE" />
+                              <TableColumn prefWidth="142.0" text="TOTAL PLAYED  TIME" />
+                              <TableColumn minWidth="7.0" prefWidth="104.0" text="WIN STREAK" />
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+          <Tab text="Classic">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tblClassic" prefHeight="275.0" prefWidth="530.0">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="RANK" />
+                              <TableColumn prefWidth="75.0" text="NAME" />
+                              <TableColumn prefWidth="75.0" text="SCORE" />
+                              <TableColumn prefWidth="142.0" text="PLAYED  TIME" />
+                              <TableColumn minWidth="7.0" prefWidth="104.0" text="WIN STREAK" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Freedom">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tblFreedom" prefHeight="275.0" prefWidth="530.0">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="RANK" />
+                              <TableColumn prefWidth="75.0" text="NAME" />
+                              <TableColumn prefWidth="75.0" text="SCORE" />
+                              <TableColumn prefWidth="142.0" text="PLAYED  TIME" />
+                              <TableColumn minWidth="7.0" prefWidth="104.0" text="WIN STREAK" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Obstacle">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tblObstacle" prefHeight="275.0" prefWidth="530.0">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="RANK" />
+                              <TableColumn prefWidth="75.0" text="NAME" />
+                              <TableColumn prefWidth="75.0" text="SCORE" />
+                              <TableColumn prefWidth="142.0" text="PLAYED  TIME" />
+                              <TableColumn minWidth="7.0" prefWidth="104.0" text="WIN STREAK" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Portals">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tblPortals" prefHeight="275.0" prefWidth="530.0">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="RANK" />
+                              <TableColumn prefWidth="75.0" text="NAME" />
+                              <TableColumn prefWidth="75.0" text="SCORE" />
+                              <TableColumn prefWidth="142.0" text="PLAYED  TIME" />
+                              <TableColumn minWidth="7.0" prefWidth="104.0" text="WIN STREAK" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="1 VS 1">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="tbl1VS1" prefHeight="275.0" prefWidth="530.0">
+                           <columns>
+                              <TableColumn prefWidth="75.0" text="RANK" />
+                              <TableColumn prefWidth="75.0" text="NAME" />
+                              <TableColumn prefWidth="75.0" text="SCORE" />
+                              <TableColumn prefWidth="142.0" text="PLAYED  TIME" />
+                              <TableColumn minWidth="7.0" prefWidth="104.0" text="WIN STREAK" />
+                           </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <Label layoutX="207.0" layoutY="13.0" text="LEADERBOARD">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -3,13 +3,13 @@
  */
 package scale_legends;
 import javafx.application.Application;
-import javafx.scene.Group;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 public class App extends Application{
@@ -20,14 +20,12 @@ public class App extends Application{
 
     @Override
     public void start(Stage stage) throws Exception {
-        Group root = new Group();
-        Scene mainScene = new Scene(root, Color.DARKORANGE);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
+        Parent root = loader.load();
+        Scene mainScene = new Scene(root);
         
-        stage.setTitle("Exemplu");
-        //stage.setResizable(false);
+        stage.setTitle("Scale Legends");
         stage.setFullScreen(true);
-        stage.setFullScreenExitHint("Acesta este un exemplu și trebuie tratat caatare!\nApasa tasta q pentru a eși din Fullscren");
-        stage.setFullScreenExitKeyCombination(KeyCombination.valueOf("q"));
         mainScene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
 
             if(FullScreenKeyCombo.match(event)) {
