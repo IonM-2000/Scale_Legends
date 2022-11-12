@@ -8,10 +8,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scale_legends.SceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scale_legends.OptionsSceneController">
    <children>
       <Button layoutX="332.0" layoutY="344.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="107.0" text="Apply" />
-      <Button layoutX="156.0" layoutY="344.0" mnemonicParsing="false" onAction="#switchToMainScene" prefHeight="26.0" prefWidth="107.0" text="Cancel" />
+      <Button fx:id="btnCancel" layoutX="156.0" layoutY="344.0" mnemonicParsing="false" onAction="#btnCancelClick" prefHeight="26.0" prefWidth="107.0" text="Cancel" />
       <Slider layoutX="117.0" layoutY="287.0" value="50.0" />
       <Label layoutX="27.0" layoutY="275.0" prefHeight="27.0" prefWidth="66.0" text="Volume">
          <font>

@@ -6,36 +6,24 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 public class App extends Application{
-    final KeyCombination FullScreenKeyCombo = new KeyCodeCombination(KeyCode.F11);
+    public static Stage stage;
+    public static FXMLLoader loader;
+    public static Parent root;
     public static void main(String[] args) {
         Application.launch(args);
     }
 
     @Override
     public void start(Stage stage) throws Exception {
+        App.stage = stage;
         FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
         Parent root = loader.load();
-        Scene mainScene = new Scene(root);
-        
+        Scene currentScene = new Scene(root);
         stage.setTitle("Scale Legends");
-        stage.setFullScreen(true);
-        mainScene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-
-            if(FullScreenKeyCombo.match(event)) {
-
-               stage.setFullScreen(!stage.isFullScreen());
-
-            }
-         });
-
-        stage.setScene(mainScene);
+        stage.setScene(currentScene);
         stage.show();
         
     }

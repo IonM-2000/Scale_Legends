@@ -7,9 +7,9 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scale_legends.SceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="scale_legends.LoginSceneController">
    <children>
-      <Button fx:id="btnLogin" layoutX="103.0" layoutY="309.0" mnemonicParsing="false" onAction="#switchToMainScene" text="Login" />
+      <Button fx:id="btnLogin" layoutX="103.0" layoutY="309.0" mnemonicParsing="false" onAction="#btnLoginClick" text="Login" />
       <TextField fx:id="txtUsername" layoutX="150.0" layoutY="165.0" />
       <TextField fx:id="txtPasword" layoutX="151.0" layoutY="219.0" />
       <Label layoutX="76.0" layoutY="169.0" text="Username" />
