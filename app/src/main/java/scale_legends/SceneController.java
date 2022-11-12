@@ -1,6 +1,7 @@
 package scale_legends;
 
 import java.io.IOException;
+import java.net.URL;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +16,8 @@ public class SceneController{
     private Parent root;
 
     public void switchToLoginScene(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Login.fxml"));
+        URL url =  ClassLoader.getSystemResource("scale_legends/assets/Login.fxml");
+        FXMLLoader loader = new FXMLLoader(url);
         root = loader.load();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -25,7 +27,8 @@ public class SceneController{
     }
 
     public void switchToMainScene(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+        URL url =  ClassLoader.getSystemResource("scale_legends/assets/Main.fxml");
+        FXMLLoader loader = new FXMLLoader(url);
         root = loader.load();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -35,7 +38,8 @@ public class SceneController{
     }
 
     public void switchToNewGameScene(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("NewGame.fxml"));
+        URL url =  ClassLoader.getSystemResource("scale_legends/assets/NewGame.fxml");
+        FXMLLoader loader = new FXMLLoader(url);
         root = loader.load();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -45,7 +49,8 @@ public class SceneController{
     }
 
     public void switchToLeaderboardScene(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Leaderboard.fxml"));
+        URL url =  ClassLoader.getSystemResource("scale_legends/assets/Leaderboard.fxml");
+        FXMLLoader loader = new FXMLLoader(url);
         root = loader.load();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
@@ -55,7 +60,8 @@ public class SceneController{
     }
 
     public void switchToOptionsScene(ActionEvent event) throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Options.fxml"));
+        URL url =  ClassLoader.getSystemResource("scale_legends/assets/Options.fxml");
+        FXMLLoader loader = new FXMLLoader(url);
         root = loader.load();
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
