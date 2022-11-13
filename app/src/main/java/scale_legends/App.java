@@ -21,6 +21,14 @@ public class App extends Application{
         FXMLLoader loader = new FXMLLoader(url);
         Parent root = loader.load();
         Scene mainScene = new Scene(root);
+
+        {
+            DataBaseHandler database = new DataBaseHandler(
+                "jdbc:mysql://localhost",
+                "root",
+                "root"
+            );
+        }
         
         stage.setTitle("Scale Legends");
         stage.setScene(mainScene);
