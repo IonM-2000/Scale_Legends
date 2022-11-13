@@ -1,6 +1,7 @@
 package scale_legends;
 
 import java.io.IOException;
+import java.net.URL;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,7 +16,8 @@ public class MainSceneController {
 
     
     public void btnExitClick() {
-        loader = new FXMLLoader(getClass().getResource("Login.fxml"));
+        URL url =  ClassLoader.getSystemResource("scale_legends/assets/Login.fxml");
+        loader = new FXMLLoader(url);
         try {
             App.root = loader.load();
         } catch (IOException e) {
@@ -27,7 +29,8 @@ public class MainSceneController {
     }
 
     public void btnNewGameClick() {
-        loader = new FXMLLoader(getClass().getResource("NewGame.fxml"));
+        URL url =  ClassLoader.getSystemResource("scale_legends/assets/NewGame.fxml");
+        loader = new FXMLLoader(url);
         try {
             App.root = loader.load();
         } catch (IOException e) {
@@ -39,7 +42,8 @@ public class MainSceneController {
     }
 
     public void btnLeaderboardClick() {
-        loader = new FXMLLoader(getClass().getResource("Leaderboard.fxml"));
+        URL url =  ClassLoader.getSystemResource("scale_legends/assets/Leaderboard.fxml");
+        loader = new FXMLLoader(url);
         try {
             App.root = loader.load();
         } catch (IOException e) {
@@ -51,7 +55,8 @@ public class MainSceneController {
     }
 
     public void btnOptionsClick() {
-        loader = new FXMLLoader(getClass().getResource("Options.fxml"));
+        URL url =  ClassLoader.getSystemResource("scale_legends/assets/Options.fxml");
+        loader = new FXMLLoader(url);
         try {
             App.root = loader.load();
         } catch (IOException e) {

@@ -7,7 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class App extends Application{
+public class App extends Application {
     public static Stage stage;
     public static FXMLLoader loader;
     public static Parent root;

@@ -1,6 +1,8 @@
 package scale_legends;
 
 import java.io.IOException;
+import java.net.URL;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -10,8 +12,9 @@ public class LoginSceneController {
     public FXMLLoader loader;
 
     
-    public void btnLoginClick(){
-        loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+    public void btnLoginClick() {
+        URL url =  ClassLoader.getSystemResource("scale_legends/assets/Main.fxml");
+        loader = new FXMLLoader(url);
         try {
             App.root = loader.load();
         } catch (IOException e) {
