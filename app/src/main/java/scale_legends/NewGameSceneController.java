@@ -15,7 +15,6 @@ public class NewGameSceneController {
         try {
             App.root = loader.load();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         Scene mainScene = new Scene( App.root);

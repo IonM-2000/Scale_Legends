@@ -19,7 +19,6 @@ public class MainSceneController {
         try {
             App.root = loader.load();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         Scene loginScene = new Scene( App.root);
@@ -32,7 +31,6 @@ public class MainSceneController {
         try {
             App.root = loader.load();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         Scene newGameScene = new Scene( App.root);
@@ -45,7 +43,6 @@ public class MainSceneController {
         try {
             App.root = loader.load();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         Scene leaderboardScene = new Scene( App.root);
@@ -58,7 +55,6 @@ public class MainSceneController {
         try {
             App.root = loader.load();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         Scene optionsScene = new Scene( App.root);
