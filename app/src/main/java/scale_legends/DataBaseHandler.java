@@ -11,7 +11,9 @@ public class DataBaseHandler {
 	private Connection connection;
 	public ResultSet resultSet;
 
-	public DataBaseHandler(String url, String username, String password) {
+	private static DataBaseHandler singleInstance = null;
+
+	private DataBaseHandler(String url, String username, String password) {
 		this.url = url;
 		this.username = username;
 		this.password = password;
@@ -19,6 +21,13 @@ public class DataBaseHandler {
 		this.statement = null;
 		this.resultSet = null;
 		this.connection = null;
+	}
+
+	public static DataBaseHandler getInstance() {
+		if(singleInstance == null){
+			singleInstance = new DataBaseHandler("jdbc:mysql://localhost", "root", "root");
+		}
+		return singleInstance;
 	}
 
 	public boolean connect() {

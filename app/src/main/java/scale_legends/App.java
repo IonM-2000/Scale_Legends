@@ -22,13 +22,7 @@ public class App extends Application{
         Parent root = loader.load();
         Scene mainScene = new Scene(root);
 
-        {
-            DataBaseHandler database = new DataBaseHandler(
-                "jdbc:mysql://localhost",
-                "root",
-                "root"
-            );
-        }
+        DataBaseHandler connection = DataBaseHandler.getInstance();
         
         stage.setTitle("Scale Legends");
         stage.setScene(mainScene);
