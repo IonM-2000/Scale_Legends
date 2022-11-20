@@ -21,9 +21,12 @@ public class App extends Application {
         URL url =  ClassLoader.getSystemResource("scale_legends/assets/Login.fxml");
         FXMLLoader loader = new FXMLLoader(url);
         Parent root = loader.load();
-        Scene currentScene = new Scene(root);
+        Scene mainScene = new Scene(root);
+
+        DataBaseHandler connection = DataBaseHandler.getInstance();
+        
         stage.setTitle("Scale Legends");
-        stage.setScene(currentScene);
+        stage.setScene(mainScene);
         stage.show();
     }
 }
