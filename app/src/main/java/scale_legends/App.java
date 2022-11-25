@@ -13,6 +13,7 @@ public class App extends Application {
     public static Parent currentRoot;
     public static Scene currentScene;
     public static Stage stage;
+    public static DataBaseHandler connection;
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -23,6 +24,8 @@ public class App extends Application {
         App.stage = stage;
         stage.setTitle("Scale Legends");
 
+        connection = DataBaseHandler.getInstance();
+        
         changeScene(NewGameSceneController.scene);
     }
     
