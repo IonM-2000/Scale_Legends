@@ -1,27 +1,14 @@
 package scale_legends;
 
-import java.io.IOException;
-import java.net.URL;
-
-import javafx.fxml.FXMLLoader;
+import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 public class OptionsSceneController {
-    public Button btnCancel;
-    public FXMLLoader loader;
+    public static Scene scene = App.loadScene("Options");
+    @FXML public Button btnCancel;
 
-    
     public void btnCancelClick() {
-        URL url =  ClassLoader.getSystemResource("scale_legends/assets/Main.fxml");
-        loader = new FXMLLoader(url);
-        try {
-            App.root = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Scene mainScene = new Scene( App.root);
-        App.stage.setScene(mainScene);
-        App.stage.show();
+        App.changeScene(MainSceneController.scene);
     }
 }

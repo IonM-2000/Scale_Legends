@@ -1,4 +1,5 @@
 package scale_legends;
+import java.io.IOException;
 import java.net.URL;
 
 import javafx.application.Application;
@@ -8,22 +9,42 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class App extends Application {
+    public static FXMLLoader currentLoader;
+    public static Parent currentRoot;
+    public static Scene currentScene;
     public static Stage stage;
-    public static FXMLLoader loader;
-    public static Parent root;
+
     public static void main(String[] args) {
         Application.launch(args);
     }
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         App.stage = stage;
-        URL url =  ClassLoader.getSystemResource("scale_legends/assets/Login.fxml");
-        FXMLLoader loader = new FXMLLoader(url);
-        Parent root = loader.load();
-        Scene currentScene = new Scene(root);
         stage.setTitle("Scale Legends");
-        stage.setScene(currentScene);
+
+        changeScene(NewGameSceneController.scene);
+    }
+    
+    static public void changeScene(Scene scene) {
+        stage.setScene(scene);
         stage.show();
     }
+
+    public static Scene loadScene(String sceneName) {
+        String path = "scale_legends/assets/" + sceneName + ".fxml";
+        URL url = ClassLoader.getSystemResource(path);
+
+        try {
+            currentLoader = new FXMLLoader(url);
+            currentRoot = currentLoader.load();
+            currentScene = new Scene(currentRoot);
+            return currentScene;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+
 }
