@@ -26,9 +26,13 @@ public class App extends Application {
         changeScene(NewGameSceneController.scene);
     }
     
-    static public void changeScene(Scene scene) {
+    public static void changeScene(Scene scene) {
         stage.setScene(scene);
         stage.show();
+
+        if (scene == PlayGameSceneController.scene) {
+            PlayGameSceneController.setKeyControls(scene);
+        }
     }
 
     public static Scene loadScene(String sceneName) {
