@@ -23,40 +23,49 @@ public class PlayGameSceneController {
     @FXML Canvas cnvCanvas;
     GraphicsContext graphicsContext;
 
-    private static final int WIDTH = 600;
-    private static final int HEIGHT = 400;
     private static final int SQUARE_SIZE = 50;
-    private static final int ROWS = HEIGHT / SQUARE_SIZE;
-    private static final int COLUMNS = WIDTH / SQUARE_SIZE;
+    private static int WIDTH;
+    private static int HEIGHT;
+    private static int ROWS;
+    private static int COLUMNS;
 
     private static final int RIGHT = 0;
     private static final int LEFT = 1;
     private static final int UP = 2;
     private static final int DOWN = 3;
 
-    private List<Point> snakeBody;
-    private Point snakeHead;
-    private Point foodPos;
-    private boolean gameOver;
+    private static List<Point> snakeBody;
+    private static Point snakeHead;
+    private static Point foodPos;
+    private static GameState gameState;
+    private static boolean isGameStateFirstTick;
     private static int currentDirection;
     private static int lastDirection;
-    private int score;
-    private int segmentsToGrow;
+    private static int score;
+    private static int segmentsToGrow;
     
-    private Timeline timeline;
-    private static final int frameTickRatio = 5;
+    private static Timeline timeline;
+    private static final int frameTickRatio = 10;
     private static final double inputAcceptancePercent = 1.0;
     private static int frameCount;
 
     public void initialize() {
+        WIDTH = (int) cnvCanvas.getWidth();
+        HEIGHT = (int) cnvCanvas.getHeight();
+        ROWS = HEIGHT / SQUARE_SIZE - 1;
+        COLUMNS = WIDTH / SQUARE_SIZE;
+
         graphicsContext = cnvCanvas.getGraphicsContext2D();
-        timeline = new Timeline(new KeyFrame(Duration.millis(50), f -> { run(); }));
+        timeline = new Timeline(new KeyFrame(Duration.millis(25), f -> { run(); }));
         timeline.setCycleCount(Animation.INDEFINITE);
 
-        foodPos = new Point();
+        foodPos = new Point(-1, -1);
         snakeBody = new ArrayList<Point>();
         
+        gameState = GameState.LIMBO;
         reset();
+
+        timeline.play();
     }
 
     public static void setKeyControls(Scene scene) {
@@ -82,53 +91,76 @@ public class PlayGameSceneController {
                         if (lastDirection != UP) {
                             currentDirection = DOWN;
                         }
+                    } else if (code == KeyCode.SPACE) {
+                        if (gameState != GameState.RUNNING) {
+                            reset();
+                            startGameplay();
+                        }
                     }
                 }
             }
         });
     }
     
-    private void reset() {
+    private static void reset() {
         frameCount = 0;
-        gameOver = false;
         currentDirection = RIGHT;
         lastDirection = LEFT;
         score = 0;
+    }
+
+    private static void startGameplay() {
+        gameState = GameState.RUNNING;
+        isGameStateFirstTick = true;
 
         snakeBody.clear();
         snakeBody.add(new Point(COLUMNS / 2 - 1, ROWS / 2 - 1));
         snakeHead = snakeBody.get(0);
-
         segmentsToGrow = 2;
+
         generateFood();
         
         timeline.play();
-
     }
 
     private void run() {
         if (frameCount % frameTickRatio == 0) {
-            if (gameOver) {
-                graphicsContext.setFill(Color.RED);
-                graphicsContext.setFont(new Font("Digital-7", 70));
-                graphicsContext.fillText("Game Over", WIDTH / 3.5, HEIGHT / 2);
-    
-                reset();
-                return;
+            if (isGameStateFirstTick == true) {
+                gameStateFirstTick();
+            }
+            isGameStateFirstTick = false;
+
+            if (gameState == GameState.RUNNING) {
+                checkGameOver();
+                moveSnake();
+                eatFood();
             }
 
-            moveSnake();
-            eatFood();
-            checkGameOver();
-            
             drawBackground();
+            drawScore();
             drawFood();
             drawSnake();
-            //drawScore();
 
+            drawGameState();
         }
 
         frameCount++;
+    }
+
+    private void gameStateFirstTick() {
+        switch (gameState) {
+            case LOSS:
+                //TODO Send data to database
+    
+                break;
+            case WIN:
+                //TODO Send data to database
+    
+                break;
+            default:
+                // hopefully unreachable
+                break;
+        }
     }
 
     private void moveSnake() {
@@ -159,7 +191,7 @@ public class PlayGameSceneController {
         
     }
 
-    private void generateFood() {
+    private static void generateFood() {
         Vector<Point> possible_positions = new Vector<Point>();
 
         for (int y = 0; y < ROWS; y++) {
@@ -177,6 +209,15 @@ public class PlayGameSceneController {
                     possible_positions.add(new Point(x, y));
                 }
             }
+        }
+
+        if (possible_positions.isEmpty()) {
+            foodPos.y = -1;
+            foodPos.x = -1;
+
+            gameState = GameState.WIN;
+
+            return;
         }
 
         int random_index = (int) (Math.random() * possible_positions.size());
@@ -203,14 +244,35 @@ public class PlayGameSceneController {
     }
 
     public void checkGameOver() {
-        if (snakeHead.x < 0 || snakeHead.y < 0 || snakeHead.x >= COLUMNS || snakeHead.y >= ROWS) {
-            gameOver = true;
+        if (gameState != GameState.RUNNING) {
+            return;
+        }
+
+        Point nextSnakeHead = new Point(snakeHead);
+
+        switch (currentDirection) {
+            case RIGHT:
+                nextSnakeHead.x++;
+                break;
+            case LEFT:
+                nextSnakeHead.x--;
+                break;
+            case UP:
+                nextSnakeHead.y--;
+                break;
+            case DOWN:
+                nextSnakeHead.y++;
+                break;
+        }
+        
+        if (nextSnakeHead.x < 0 || nextSnakeHead.y < 0 || nextSnakeHead.x >= COLUMNS || nextSnakeHead.y >= ROWS) {
+            gameState = GameState.LOSS;
             return;
         }
 
         for (int i = 1; i < snakeBody.size(); i++) {
-            if (snakeHead.equals(snakeBody.get(i))) {
-                gameOver = true;
+            if (nextSnakeHead.equals(snakeBody.get(i))) {
+                gameState = GameState.LOSS;
                 return;
             }
         }
@@ -225,15 +287,23 @@ public class PlayGameSceneController {
     }
 
     private void drawFood() {
-        graphicsContext.setFill(Color.RED);
-        graphicsContext.fillRect(foodPos.x * SQUARE_SIZE, foodPos.y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+        graphicsContext.setFill(Color.web("8F0114"));
+        graphicsContext.fillRoundRect(
+            foodPos.x * SQUARE_SIZE, (foodPos.y + 1) * SQUARE_SIZE,
+            SQUARE_SIZE, SQUARE_SIZE,
+            SQUARE_SIZE, SQUARE_SIZE
+        );
     }
 
     private void drawSnake() {
+        if (snakeBody.isEmpty() == true) {
+            return;
+        }
+
         graphicsContext.setFill(Color.web("4674E9"));
         graphicsContext.fillRoundRect(
             snakeHead.x * SQUARE_SIZE,
-            snakeHead.y * SQUARE_SIZE,
+            (snakeHead.y + 1) * SQUARE_SIZE,
             SQUARE_SIZE - 1, SQUARE_SIZE - 1,
             35, 35
         );
@@ -241,7 +311,7 @@ public class PlayGameSceneController {
         for (int i = 1; i < snakeBody.size(); i++) {
             graphicsContext.fillRoundRect(
                 snakeBody.get(i).x * SQUARE_SIZE,
-                snakeBody.get(i).y * SQUARE_SIZE,
+                (snakeBody.get(i).y + 1) * SQUARE_SIZE,
                 SQUARE_SIZE - 1, SQUARE_SIZE - 1,
                 20, 20
             );
@@ -249,6 +319,11 @@ public class PlayGameSceneController {
     }
     
     private void drawBackground() {
+        for (int x = 0; x < COLUMNS; x++) {
+            graphicsContext.setFill(Color.web("668130"));
+            graphicsContext.fillRect(x * SQUARE_SIZE, 0, SQUARE_SIZE, SQUARE_SIZE);
+        }
+
         for (int y = 0; y < ROWS; y++) {
             for (int x = 0; x < COLUMNS; x++) {
                 if ((y + x) % 2 == 0) {
@@ -256,7 +331,7 @@ public class PlayGameSceneController {
                 } else {
                     graphicsContext.setFill(Color.web("A2D149"));
                 }
-                graphicsContext.fillRect(x * SQUARE_SIZE, y * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+                graphicsContext.fillRect(x * SQUARE_SIZE, (y + 1) * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
             }
         }
     }
@@ -264,10 +339,33 @@ public class PlayGameSceneController {
     private void drawScore() {
         graphicsContext.setFill(Color.WHITE);
         graphicsContext.setFont(new Font("Digital-7", 35));
-        graphicsContext.fillText("Score: " + score, 10, 35);
+        graphicsContext.fillText("Score: " + score, 10, 40);
+    }
+
+    private void drawGameState() {
+        graphicsContext.setFont(new Font("Digital-7", 70));
+        switch (gameState) {
+            case LIMBO:
+                graphicsContext.setFill(Color.BLUE);
+                graphicsContext.fillText("Press start", WIDTH / 3.5, HEIGHT / 2);
+                break;
+            case RUNNING:
+                // unreachable, i hope
+                break;
+            case LOSS:
+                graphicsContext.setFill(Color.RED);
+                graphicsContext.fillText("You Lose!", WIDTH / 3.5, HEIGHT / 2);
+                break;
+            case WIN:
+                graphicsContext.setFill(Color.GOLD);
+                graphicsContext.fillText("You Win!", WIDTH / 3.5, HEIGHT / 2);
+                break;
+            default:
+                break;
+        }
     }
     
-    class Point {
+    private static class Point {
         int x, y;
 
         Point(Point other) {
@@ -288,6 +386,13 @@ public class PlayGameSceneController {
         boolean equals(Point other) {
             return this.x == other.x && this.y == other.y;
         }
+    }
+
+    private enum GameState {
+        LIMBO,
+        RUNNING,
+        LOSS,
+        WIN
     }
 
 }

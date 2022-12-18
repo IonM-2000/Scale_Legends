@@ -22,7 +22,8 @@ public class App extends Application {
     public void start(Stage stage) {
         App.stage = stage;
         stage.setTitle("Scale Legends");
-
+        
+        //TODO Change to LoginSceneController
         changeScene(NewGameSceneController.scene);
     }
     
