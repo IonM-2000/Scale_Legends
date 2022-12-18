@@ -16,7 +16,7 @@ public class NewGameSceneController {
     
     public void initialize() {
         ObservableList<String> gamemodes = FXCollections.observableArrayList(
-            "Golf Balls", "Wedges", "Irons", "Tees", "Driver", "Putter"
+            "Classic", "Freedom", "Obstacles", "Portals"
         );
         listGamemodes = new ListView<String>(gamemodes);
         listGamemodes.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
