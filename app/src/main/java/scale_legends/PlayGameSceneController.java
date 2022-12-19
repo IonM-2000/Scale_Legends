@@ -103,7 +103,8 @@ public class PlayGameSceneController {
                 }
                 
                 gameMode.run();
-                gameMode.draw(graphicsContext);
+                gameMode.drawGamePlay(graphicsContext);
+                gameMode.drawGameHeader(graphicsContext);
             }
     
             frameCount++;

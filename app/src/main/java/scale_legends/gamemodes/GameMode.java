@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public abstract class GameMode {
-    private final int SQUARE_SIZE = 50;
+    protected final int SQUARE_SIZE = 50;
     protected int WIDTH;
     private int HEIGHT;
     protected int ROWS;
@@ -21,9 +21,9 @@ public abstract class GameMode {
 
     protected List<Point> snakeBody;
     protected Point snakeHead;
-    private Point foodPos;
+    protected Point foodPos;
     protected Direction currentDirection;
-    private Direction lastDirection;
+    protected Direction lastDirection;
     protected int score;
     protected int segmentsToGrow;
 
@@ -61,8 +61,8 @@ public abstract class GameMode {
 
     public void run() {
 		if (isRunning()) {
-			checkGameOver();
 			moveSnake();
+            checkGameOver();
 			eatFood();
 		}
     }
@@ -94,7 +94,7 @@ public abstract class GameMode {
         }
     }
 
-    private void generateFood() {
+    protected void generateFood() {
         Vector<Point> possible_positions = new Vector<Point>();
 
         for (int y = 0; y < ROWS; y++) {
@@ -174,42 +174,22 @@ public abstract class GameMode {
         lastDirection = Direction.DOWN;
     }
 
+    protected boolean snakeHitsHead(Point head) {
+        if (snakeHead.x < 0 || snakeHead.y < 0 || snakeHead.x >= COLUMNS || snakeHead.y >= ROWS ||
+            snakeBody.size() > 1 && snakeBody.subList(1, snakeBody.size()).contains(snakeHead))
+        {
+            return true;
+        }
+        return false;
+    }
+
     protected void checkGameOver() {
-        if (isRunning() == false) {
-            return;
-        }
-
-        Point nextSnakeHead = new Point(snakeHead);
-
-        switch (currentDirection) {
-            case RIGHT:
-                nextSnakeHead.x++;
-                break;
-            case LEFT:
-                nextSnakeHead.x--;
-                break;
-            case UP:
-                nextSnakeHead.y--;
-                break;
-            case DOWN:
-                nextSnakeHead.y++;
-                break;
-        }
-        
-        if (nextSnakeHead.x < 0 || nextSnakeHead.y < 0 || nextSnakeHead.x >= COLUMNS || nextSnakeHead.y >= ROWS) {
-			gameStateChange(GameState.LOSS);
-            return;
-        }
-
-        for (int i = 1; i < snakeBody.size(); i++) {
-            if (nextSnakeHead.equals(snakeBody.get(i))) {
-				gameStateChange(GameState.LOSS);
-                return;
-            }
+        if (snakeHitsHead(snakeHead)) {
+            gameStateChange(GameState.LOSS);
         }
     }
 
-    private void eatFood() {
+    protected void eatFood() {
         if (snakeHead.x == foodPos.x && snakeHead.y == foodPos.y) {
             segmentsToGrow++;
             score += 1;
@@ -217,17 +197,20 @@ public abstract class GameMode {
         }
     }
 
-	public void draw(GraphicsContext graphicsContext) {
+    public void drawGamePlay(GraphicsContext graphicsContext) {
 		drawBackground(graphicsContext);
-		drawScore(graphicsContext);
 		drawFood(graphicsContext);
 		drawSnake(graphicsContext);
-        drawGameMode(graphicsContext);
+    }
 
+	public void drawGameHeader(GraphicsContext graphicsContext) {
+        drawBackgroundHat(graphicsContext);
+		drawScore(graphicsContext);
 		drawGameState(graphicsContext);
+        drawGameMode(graphicsContext);
 	}
 
-    private void drawGameState(GraphicsContext graphicsContext) {
+    protected void drawGameState(GraphicsContext graphicsContext) {
         graphicsContext.setFont(new Font("Digital-7", 70));
 
         switch (gameState) {
@@ -251,7 +234,7 @@ public abstract class GameMode {
         }
 	}
 
-	private void drawSnake(GraphicsContext graphicsContext) {
+	protected void drawSnake(GraphicsContext graphicsContext) {
         if (snakeBody.isEmpty() == true) {
             return;
         }
@@ -274,7 +257,7 @@ public abstract class GameMode {
         }
 	}
 
-	private void drawFood(GraphicsContext graphicsContext) {
+	protected void drawFood(GraphicsContext graphicsContext) {
         graphicsContext.setFill(Color.web("8F0114"));
         graphicsContext.fillRoundRect(
             foodPos.x * SQUARE_SIZE, (foodPos.y + 1) * SQUARE_SIZE,
@@ -283,7 +266,7 @@ public abstract class GameMode {
         );
 	}
 
-	private void drawScore(GraphicsContext graphicsContext) {
+	protected void drawScore(GraphicsContext graphicsContext) {
         graphicsContext.setFill(Color.WHITE);
         graphicsContext.setFont(new Font("Digital-7", 35));
         graphicsContext.fillText("Score: " + score, 10, 40);
@@ -291,12 +274,14 @@ public abstract class GameMode {
 
 	abstract protected void drawGameMode(GraphicsContext graphicsContext);
 
-	private void drawBackground(GraphicsContext graphicsContext) {
+    protected void drawBackgroundHat(GraphicsContext graphicsContext) {
         for (int x = 0; x < COLUMNS; x++) {
             graphicsContext.setFill(Color.web("668130"));
             graphicsContext.fillRect(x * SQUARE_SIZE, 0, SQUARE_SIZE, SQUARE_SIZE);
         }
+    }
 
+	protected void drawBackground(GraphicsContext graphicsContext) {
         for (int y = 0; y < ROWS; y++) {
             for (int x = 0; x < COLUMNS; x++) {
                 if ((y + x) % 2 == 0) {
@@ -326,8 +311,26 @@ public abstract class GameMode {
             this.y = y;
         }
 
-        boolean equals(Point other) {
-            return this.x == other.x && this.y == other.y;
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            Point other = (Point) obj;
+            if (!getEnclosingInstance().equals(other.getEnclosingInstance()))
+                return false;
+            if (x != other.x)
+                return false;
+            if (y != other.y)
+                return false;
+            return true;
+        }
+
+        private GameMode getEnclosingInstance() {
+            return GameMode.this;
         }
     }
 
