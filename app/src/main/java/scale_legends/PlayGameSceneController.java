@@ -13,6 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 
 import scale_legends.gamemodes.*;
+import scale_legends.gamemodes.GameMode.GameModeType;
 
 public class PlayGameSceneController {
     public static final Scene scene = App.loadScene("PlayGame");
@@ -20,9 +21,10 @@ public class PlayGameSceneController {
     GraphicsContext graphicsContext;
 
     private static GameMode gameMode;
+    public static GameModeType gameModeType = GameModeType.CLASSIC;
 
-    private int WIDTH;
-    private int HEIGHT;
+    private static int WIDTH;
+    private static int HEIGHT;
 
     private static Timeline timeline;
     private static final int frameTickRatio = 10;
@@ -30,16 +32,35 @@ public class PlayGameSceneController {
     private static int frameCount;
 
     public void initialize() {
-        WIDTH = (int) cnvCanvas.getWidth();
-        HEIGHT = (int) cnvCanvas.getHeight();
-        
-        gameMode = new ClassicMode(WIDTH, HEIGHT);
-
         graphicsContext = cnvCanvas.getGraphicsContext2D();
         timeline = new Timeline(new KeyFrame(Duration.millis(25), f -> { run(); }));
         timeline.setCycleCount(Animation.INDEFINITE);
 
+        WIDTH = (int) cnvCanvas.getWidth();
+        HEIGHT = (int) cnvCanvas.getHeight();
+
         timeline.play();
+    }
+
+    public static void updateGameMode() {
+        switch (gameModeType) {
+            case CLASSIC: {
+                gameMode = new ClassicMode(WIDTH, HEIGHT);
+                break;
+            }
+            case FREEDOM: {
+                gameMode = new FreedomMode(WIDTH, HEIGHT);
+                break;
+            }
+            case OBSTACLES: {
+                gameMode = new ObstaclesMode(WIDTH, HEIGHT);
+                break;
+            }
+            case PORTALS: {
+                gameMode = new PortalsMode(WIDTH, HEIGHT);
+                break;
+            }
+        }
     }
 
     public static void setKeyControls(Scene scene) {
@@ -75,16 +96,18 @@ public class PlayGameSceneController {
     }
 
     private void run() {
-        if (frameCount % frameTickRatio == 0) {
-            if (gameMode.isGameStateChanged()) {
-                gameStateFirstTick();
+        if (gameMode != null) {
+            if (frameCount % frameTickRatio == 0) {
+                if (gameMode.isGameStateChanged()) {
+                    gameStateFirstTick();
+                }
+                
+                gameMode.run();
+                gameMode.draw(graphicsContext);
             }
-            
-            gameMode.run();
-            gameMode.draw(graphicsContext);
+    
+            frameCount++;
         }
-
-        frameCount++;
     }
 
     private void gameStateFirstTick() {

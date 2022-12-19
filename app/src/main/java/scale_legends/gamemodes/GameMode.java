@@ -11,7 +11,7 @@ import javafx.scene.text.Font;
 
 public abstract class GameMode {
     private final int SQUARE_SIZE = 50;
-    private int WIDTH;
+    protected int WIDTH;
     private int HEIGHT;
     private int ROWS;
     private int COLUMNS;
@@ -24,7 +24,7 @@ public abstract class GameMode {
     private Point foodPos;
     private Direction currentDirection;
     private Direction lastDirection;
-    private int score;
+    protected int score;
     private int segmentsToGrow;
 
 	public GameMode(int width, int height) {
@@ -223,6 +223,7 @@ public abstract class GameMode {
 		drawScore(graphicsContext);
 		drawFood(graphicsContext);
 		drawSnake(graphicsContext);
+        drawGameMode(graphicsContext);
 
 		drawGameState(graphicsContext);
 	}
@@ -288,6 +289,8 @@ public abstract class GameMode {
         graphicsContext.setFont(new Font("Digital-7", 35));
         graphicsContext.fillText("Score: " + score, 10, 40);
 	}
+
+	abstract protected void drawGameMode(GraphicsContext graphicsContext);
 
 	private void drawBackground(GraphicsContext graphicsContext) {
         for (int x = 0; x < COLUMNS; x++) {
@@ -357,5 +360,12 @@ public abstract class GameMode {
 
 		return answer;
 	}
+
+    public enum GameModeType {
+        CLASSIC,
+        FREEDOM,
+        OBSTACLES,
+        PORTALS
+    }
 
 }
