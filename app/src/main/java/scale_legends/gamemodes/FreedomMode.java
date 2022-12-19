@@ -40,11 +40,8 @@ public class FreedomMode extends GameMode {
                 break;
         }
         
-        for (int i = 1; i < snakeBody.size(); i++) {
-            if (nextSnakeHead.equals(snakeBody.get(i))) {
-				gameStateChange(GameState.LOSS);
-                return;
-            }
+        if (snakeBody.subList(1, snakeBody.size()).contains(nextSnakeHead)) {
+            gameStateChange(GameState.LOSS);
         }
 	}
 	

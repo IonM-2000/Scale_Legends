@@ -16,7 +16,7 @@ public abstract class GameMode {
     protected int ROWS;
     protected int COLUMNS;
 
-    private GameState gameState;
+    protected GameState gameState;
 	private GameState prevGameState;
 
     protected List<Point> snakeBody;
@@ -99,17 +99,10 @@ public abstract class GameMode {
 
         for (int y = 0; y < ROWS; y++) {
             for (int x = 0; x < COLUMNS; x++) {
-                boolean food_inside_snake = false;
+				Point newFood = new Point(x, y);
 
-                for (Point snakeSegment : snakeBody) {
-                    if (snakeSegment.x == x && snakeSegment.y == y) {
-                        food_inside_snake = true;
-                        break;
-                    }
-                }
-
-                if (food_inside_snake == false) {
-                    possible_positions.add(new Point(x, y));
+                if (snakeBody.contains(newFood) == false) {
+                    possible_positions.add(newFood);
                 }
             }
         }
@@ -125,8 +118,8 @@ public abstract class GameMode {
 
         int random_index = (int) (Math.random() * possible_positions.size());
         
-        foodPos.y = possible_positions.get(random_index).y;
         foodPos.x = possible_positions.get(random_index).x;
+        foodPos.y = possible_positions.get(random_index).y;
     }
 
 	public boolean handleInput(KeyCode code) {
