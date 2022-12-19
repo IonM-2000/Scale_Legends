@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;  
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
@@ -18,6 +19,7 @@ import scale_legends.gamemodes.GameMode.GameModeType;
 public class PlayGameSceneController {
     public static final Scene scene = App.loadScene("PlayGame");
     @FXML Canvas cnvCanvas;
+    @FXML Button butBack;
     GraphicsContext graphicsContext;
 
     private static GameMode gameMode;
@@ -96,6 +98,8 @@ public class PlayGameSceneController {
     }
 
     private void run() {
+        butBack.setFocusTraversable(false);
+
         if (gameMode != null) {
             if (frameCount % frameTickRatio == 0) {
                 if (gameMode.isGameStateChanged()) {
@@ -130,6 +134,10 @@ public class PlayGameSceneController {
                 // hopefully unreachable
                 break;
         }
+    }
+
+    public void btnBackClick() {
+        App.changeScene(NewGameSceneController.scene);
     }
 
 }

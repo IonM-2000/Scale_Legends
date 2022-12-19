@@ -267,14 +267,14 @@ public abstract class GameMode {
 
 	abstract protected void drawGameMode(GraphicsContext graphicsContext);
 
-    protected void drawBackgroundHat(GraphicsContext graphicsContext) {
+    public void drawBackgroundHat(GraphicsContext graphicsContext) {
         for (int x = 0; x < COLUMNS; x++) {
             graphicsContext.setFill(Color.web("668130"));
             graphicsContext.fillRect(x * SQUARE_SIZE, 0, SQUARE_SIZE, SQUARE_SIZE);
         }
     }
 
-	protected void drawBackground(GraphicsContext graphicsContext) {
+	public void drawBackground(GraphicsContext graphicsContext) {
         for (int y = 0; y < ROWS; y++) {
             for (int x = 0; x < COLUMNS; x++) {
                 if ((y + x) % 2 == 0) {
