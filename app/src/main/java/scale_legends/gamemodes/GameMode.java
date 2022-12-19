@@ -13,19 +13,19 @@ public abstract class GameMode {
     private final int SQUARE_SIZE = 50;
     protected int WIDTH;
     private int HEIGHT;
-    private int ROWS;
-    private int COLUMNS;
+    protected int ROWS;
+    protected int COLUMNS;
 
     private GameState gameState;
 	private GameState prevGameState;
 
-    private List<Point> snakeBody;
-    private Point snakeHead;
+    protected List<Point> snakeBody;
+    protected Point snakeHead;
     private Point foodPos;
-    private Direction currentDirection;
+    protected Direction currentDirection;
     private Direction lastDirection;
     protected int score;
-    private int segmentsToGrow;
+    protected int segmentsToGrow;
 
 	public GameMode(int width, int height) {
 		WIDTH = width;
@@ -67,7 +67,7 @@ public abstract class GameMode {
 		}
     }
 
-	private void moveSnake() {
+	protected void moveSnake() {
         if (segmentsToGrow > 0) {
             segmentsToGrow--;
             snakeBody.add(new Point(snakeBody.get(snakeBody.size() - 1)));
@@ -92,7 +92,6 @@ public abstract class GameMode {
                 moveDown();
                 break;
         }
-        
     }
 
     private void generateFood() {
@@ -158,24 +157,24 @@ public abstract class GameMode {
 		return false;
 	}
     
-    private void moveRight() {
+    protected void moveRight() {
         snakeHead.x++;
         lastDirection = Direction.RIGHT;
     }
-    private void moveLeft() {
+    protected void moveLeft() {
         snakeHead.x--;
         lastDirection = Direction.LEFT;
     }
-    private void moveUp() {
+    protected void moveUp() {
         snakeHead.y--;
         lastDirection = Direction.UP;
     }
-    private void moveDown() {
+    protected void moveDown() {
         snakeHead.y++;
         lastDirection = Direction.DOWN;
     }
 
-    public void checkGameOver() {
+    protected void checkGameOver() {
         if (isRunning() == false) {
             return;
         }
@@ -314,7 +313,7 @@ public abstract class GameMode {
 		return gameState == GameState.RUNNING;
 	}
 
-    private class Point {
+    class Point {
         int x, y;
 
         Point(Point other) {
@@ -332,7 +331,7 @@ public abstract class GameMode {
         }
     }
 
-	private enum Direction {
+	protected enum Direction {
 		RIGHT, LEFT,
 		UP, DOWN
 	}
@@ -348,7 +347,7 @@ public abstract class GameMode {
 		return gameState;
 	}
 
-	private void gameStateChange(GameState gameState) {
+	protected void gameStateChange(GameState gameState) {
 		prevGameState = this.gameState;
 		this.gameState = gameState;
 	}

@@ -14,7 +14,7 @@ public class ClassicMode extends GameMode {
 	protected void drawGameMode(GraphicsContext graphicsContext) {
         graphicsContext.setFill(Color.WHITE);
         graphicsContext.setFont(new Font("Digital-7", 35));
-        graphicsContext.fillText("CLASSIC", WIDTH * 0.4, 40);
+        graphicsContext.fillText("CLASSIC", WIDTH * 0.3, 40);
 	}
 
 }
